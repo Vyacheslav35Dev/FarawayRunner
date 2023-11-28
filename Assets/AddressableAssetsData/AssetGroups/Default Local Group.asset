@@ -16,7 +16,31 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: c120cdff602b7fc4b97fd2d9d29dbe68
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 05b0daca342dc8f4e967f04d831697bf
+    m_Address: Polar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: bc8f37d9c68027a49a3cf54f4f6525e1
+    m_Address: PolarCharacter
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 3b7e99a6684bf49fa9bad5f4bb585fab
+    m_Address: Assets/Sounds/Mixers/MainMix.mixer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b9c9240f438c4054ebc8e2bc290a57d1
+    m_Address: Assets/Game/Prefabs/Road1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: efe9e9e72035e71489aa4da6fdbc7357
+    m_Address: Assets/Game/Prefabs/Coin.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2940226d8814aeb4bb069880bf33fd42
+    m_Address: Obstacle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 21947482b7132c84989cbf37a9d414f6, type: 2}
   m_SchemaSet:
