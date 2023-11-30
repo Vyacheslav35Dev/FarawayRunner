@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Game.Scripts.Coins;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -49,8 +50,7 @@ namespace Game.Scripts.Character
 		protected const int k_ObstacleLayerIndex = 9;
 		protected const int k_PowerupLayerIndex = 10;
 		protected const float k_DefaultInvinsibleTime = 2f;
-
-		[Inject] private Player _player;
+		
 
 		protected void Start()
 		{
@@ -109,19 +109,21 @@ namespace Game.Scripts.Character
 			}
 			else if(c.gameObject.layer == k_ObstacleLayerIndex)
 			{
-				controller.StopMoving();
-
+				
+				
 				c.enabled = false;
 				
 				controller.character.animator.SetTrigger(s_HitHash);
-
+				controller.CurrentLife--;
 				if (controller.CurrentLife > 0)
 				{
+					controller.StopMoving();
 					m_Audio.PlayOneShot(controller.character.hitSound);
 					SetInvincible();
 				}
 				else
 				{
+					controller.StopMoving(true);
 					m_Audio.PlayOneShot(controller.character.deathSound);
 				}
 			}
@@ -132,12 +134,12 @@ namespace Game.Scripts.Character
 			m_Invincible = invincible;
 		}
 
-		public void SetInvincible(float timer = k_DefaultInvinsibleTime)
+		private void SetInvincible(float timer = k_DefaultInvinsibleTime)
 		{
-			StartCoroutine(InvincibleTimer(timer));
+			InvincibleTimer(timer).Forget();
 		}
 
-		protected IEnumerator InvincibleTimer(float timer)
+		private async UniTask InvincibleTimer(float timer)
 		{
 			m_Invincible = true;
 
@@ -150,7 +152,7 @@ namespace Game.Scripts.Character
 			{
 				Shader.SetGlobalFloat(s_BlinkingValueHash, currentBlink);
 
-				yield return null;
+				await UniTask.Yield();
 				time += Time.deltaTime;
 				lastBlink += Time.deltaTime;
 

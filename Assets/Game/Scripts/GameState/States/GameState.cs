@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Game.Scripts.GameState.GameManager;
 using Game.Scripts.Infra.Music;
 using Game.Scripts.Tracks;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Game.Scripts.GameState.States
 {
@@ -18,10 +16,10 @@ namespace Game.Scripts.GameState.States
         private Canvas _rootCanvas;
         
         [SerializeField] 
-        private GameObject _waitingPopup;
+        private TMP_Text _coinText;
         
         [SerializeField] 
-        private TMP_Text _coinText;
+        private TMP_Text _lifeCountText;
         
         [SerializeField]
         private AudioClip _gameTheme;
@@ -29,10 +27,14 @@ namespace Game.Scripts.GameState.States
         [SerializeField] 
         private TrackManager _trackManager;
         
-        private bool m_Finished = true;
+        [SerializeField] 
+        private GameObject _rootUiBackground;
         
+        private bool m_Finished;
+
         public override async UniTask Enter(State from)
         {
+            m_Finished = false;
             _rootCanvas.gameObject.SetActive(true);
             
             if (MusicPlayer.instance.GetStem(0) != _gameTheme)
@@ -41,26 +43,22 @@ namespace Game.Scripts.GameState.States
                 await MusicPlayer.instance.RestartAllStems();
             }
 
-            m_Finished = false;
-            
             await _trackManager.Begin();
-            
-            _waitingPopup.gameObject.SetActive(false);
+            _rootUiBackground.gameObject.SetActive(false);
         }
 
         public override async UniTask Exit(State to)
         {
-            _waitingPopup.gameObject.SetActive(true);
             _trackManager.gameObject.SetActive(false);
+            _rootCanvas.gameObject.SetActive(false);
         }
 
         public override void Tick()
         {
             if (_trackManager.isLoaded)
             {
-                if (_trackManager.CharacterController.CurrentLife <= 0)
+                if (_trackManager.CharacterController.CurrentLife <= 0 && !m_Finished)
                 {
-                    _trackManager.CharacterController.character.animator.SetBool(s_DeadHash, true);
                     WaitForGameOver().Forget();
                 }
             }
@@ -71,6 +69,7 @@ namespace Game.Scripts.GameState.States
         private void UpdateUI()
         {
             _coinText.text = _trackManager.CharacterController.Coins.ToString();
+            _lifeCountText.text = $"LIFE {_trackManager.CharacterController.CurrentLife}";
         }
 
         public override StateType GetStateType()
@@ -80,12 +79,20 @@ namespace Game.Scripts.GameState.States
         
         private async UniTask WaitForGameOver()
         {
+            if (m_Finished)
+            {
+                return;
+            }
+            _trackManager.CharacterController.character.animator.SetBool(s_DeadHash, true);
+            
             m_Finished = true;
             _trackManager.StopMove();
             
             Shader.SetGlobalFloat("_BlinkingValue", 0.0f);
-            await UniTask.Delay(2000);
-            _stateManager.SwitchState(StateType.Gameover);
+            
+           _stateManager.SwitchState(StateType.Gameover);
+           _trackManager.CharacterController.CurrentLife = _trackManager.CharacterController.maxLife;
+           _trackManager.End();
         }
     }
 }

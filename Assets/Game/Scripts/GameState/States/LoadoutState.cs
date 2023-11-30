@@ -22,10 +22,14 @@ namespace Game.Scripts.GameState.States
         [SerializeField]
         private GameObject _loadingCharPosition;
         
+        [SerializeField] 
+        private GameObject _rootEnv;
+        
         private GameObject _characterObject;
         
         public override async UniTask Enter(State from)
         {
+            _rootEnv.gameObject.SetActive(true);
             _rootCanvas.gameObject.SetActive(true);
 
             _characterObject = await Addressables.InstantiateAsync(_characterObjectReference, _loadingCharPosition.gameObject.transform);

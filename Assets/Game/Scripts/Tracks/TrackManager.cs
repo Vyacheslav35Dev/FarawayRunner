@@ -109,7 +109,7 @@ namespace Game.Scripts.Tracks
             m_ScoreAccum = 0.0f;
         }
 
-        private void StartMove(bool isRestart = true)
+        public void StartMove(bool isRestart = true)
         {
             CharacterController.StartMoving();
             m_IsMoving = true;

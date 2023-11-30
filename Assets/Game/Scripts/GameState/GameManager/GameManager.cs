@@ -35,7 +35,7 @@ namespace Game.Scripts.GameState.GameManager
 
             _stateStack.Clear();
 
-            PushState(states[0].GetStateType());
+            PushState(StateType.Loading);
         }
 
         protected void Update()
