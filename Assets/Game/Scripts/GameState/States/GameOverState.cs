@@ -17,6 +17,9 @@ namespace Game.Scripts.GameState.States
         [SerializeField] 
         private TrackManager _trackManager;
         
+        [SerializeField]
+        public LeaderboardYG LeaderboardYg;
+        
         public override async UniTask Enter(State from)
         {
             _rootCanvas.gameObject.SetActive(true);
@@ -46,7 +49,11 @@ namespace Game.Scripts.GameState.States
             {
                 YandexGame.savesData.score = _trackManager.CharacterController.Coins;
                 YandexGame.SaveProgress();
+                
+                LeaderboardYg.NewScore(YandexGame.savesData.score);
             }
+            
+            LeaderboardYg.UpdateLB();
             
             _stateManager.SwitchState(StateType.Lodout);
         }

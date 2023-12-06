@@ -1,8 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
 using Game.Scripts.GameState.GameManager;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using YG;
 
 namespace Game.Scripts.GameState.States
 {
@@ -22,6 +24,9 @@ namespace Game.Scripts.GameState.States
         [SerializeField]
         private GameObject _loadingCharPosition;
         
+        [SerializeField]
+        private TMP_Text _maxScoreText;
+        
         [SerializeField] 
         private GameObject _rootEnv;
         
@@ -32,6 +37,9 @@ namespace Game.Scripts.GameState.States
             _rootEnv.gameObject.SetActive(true);
             _rootCanvas.gameObject.SetActive(true);
 
+            var maxScore = YandexGame.savesData.score;
+            _maxScoreText.text = maxScore > 0 ? $"Твои максимальные очки : {maxScore}" : "";
+            
             _characterObject = await Addressables.InstantiateAsync(_characterObjectReference, _loadingCharPosition.gameObject.transform);
             _startButton.onClick.AddListener(StartGame);
             _loadingCharPosition.SetActive(true);

@@ -34,24 +34,15 @@ MonoBehaviour:
   flush: 0
   localSaveSync: 0
   saveCloudInterval: 5
-  saveOnQuitGame: 1
+  saveOnQuitGame: 0
   quitGameParameters:
     objectName: YandexGame
     methodName: _SaveProgress
-  leaderboardEnable: 0
+  leaderboardEnable: 1
   saveScoreAnonymousPlayers: 1
   leaderboardSimulation:
-  - technoName: advanced
-    entries: 'Test LeaderBoard
-
-      Name: advanced
-
-      1. anonymous: 10
-
-      2.
-      Ivan: 15
-
-      3. Tanya: 23'
+  - technoName: LeaderBoard
+    entries: score
     isDefault: 0
     isInvertSortOrder: 0
     decimalOffset: 0
