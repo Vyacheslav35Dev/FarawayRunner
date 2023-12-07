@@ -69,7 +69,7 @@ namespace Game.Scripts.GameState.States
         private void UpdateUI()
         {
             _coinText.text = _trackManager.CharacterController.Coins.ToString();
-            _lifeCountText.text = $"LIFE {_trackManager.CharacterController.CurrentLife}";
+            _lifeCountText.text = $"ЖИЗНИ {_trackManager.CharacterController.CurrentLife}";
         }
 
         public override StateType GetStateType()

@@ -1,4 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Game.Scripts.GameState.GameManager;
 using TMPro;
 using UnityEngine;
@@ -44,7 +46,7 @@ namespace Game.Scripts.GameState.States
             _startButton.onClick.AddListener(StartGame);
             _loadingCharPosition.SetActive(true);
         }
-
+        
         public override async UniTask Exit(State to)
         {
             Destroy(_characterObject);

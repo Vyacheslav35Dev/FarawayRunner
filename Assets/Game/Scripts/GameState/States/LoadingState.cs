@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
+using YG;
 
 namespace Game.Scripts.Loading
 {
@@ -66,6 +67,7 @@ namespace Game.Scripts.Loading
         private async UniTask Run(CancellationToken cancellationToken = default)
         {
             await RunSliderFromTo(0, 100, 3, cancellationToken);
+            YandexGame.GameReadyAPI();
             _stateManager.SwitchState(StateType.Lodout);
         }
         
