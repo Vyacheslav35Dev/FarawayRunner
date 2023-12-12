@@ -10,7 +10,7 @@ using YG;
 
 namespace Game.Scripts.GameState.States
 {
-    public class LoadoutState : State
+    public class LobbyState : State
     {
         [SerializeField]
         private AssetReference _characterObjectReference;
@@ -38,9 +38,14 @@ namespace Game.Scripts.GameState.States
         {
             _rootEnv.gameObject.SetActive(true);
             _rootCanvas.gameObject.SetActive(true);
+            
+            YandexGame.GameReadyAPI();
 
-            var maxScore = YandexGame.savesData.score;
-            _maxScoreText.text = maxScore > 0 ? $"Твои максимальные очки : {maxScore}" : "";
+            var score = YandexGame.auth ? YandexGame.savesData.score : PlayerPrefs.GetInt("Score", 0);
+
+            var localizeString = _maxScoreText.text;
+            _maxScoreText.text =  $"{localizeString} {score}";
+            
             
             _characterObject = await Addressables.InstantiateAsync(_characterObjectReference, _loadingCharPosition.gameObject.transform);
             _startButton.onClick.AddListener(StartGame);
@@ -69,7 +74,7 @@ namespace Game.Scripts.GameState.States
         
         public override StateType GetStateType()
         {
-            return StateType.Lodout;
+            return StateType.Lobby;
         }
     }
 }

@@ -67,8 +67,7 @@ namespace Game.Scripts.Loading
         private async UniTask Run(CancellationToken cancellationToken = default)
         {
             await RunSliderFromTo(0, 100, 3, cancellationToken);
-            YandexGame.GameReadyAPI();
-            _stateManager.SwitchState(StateType.Lodout);
+            _stateManager.SwitchState(StateType.Lobby);
         }
         
         private async UniTask RunSliderFromTo(int startValue, int endValue, float time, CancellationToken cancellationToken = default)

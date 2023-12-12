@@ -3,8 +3,8 @@
     public enum StateType
     {
         Loading,
-        Lodout,
+        Lobby,
         Game,
-        Gameover,
+        GameOver,
     }
 }

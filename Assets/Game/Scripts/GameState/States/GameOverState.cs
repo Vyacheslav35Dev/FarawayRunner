@@ -40,7 +40,7 @@ namespace Game.Scripts.GameState.States
 
         public override StateType GetStateType()
         {
-            return StateType.Gameover;
+            return StateType.GameOver;
         }
 
         private void GameOver()
@@ -55,7 +55,7 @@ namespace Game.Scripts.GameState.States
             
             LeaderboardYg.UpdateLB();
             
-            _stateManager.SwitchState(StateType.Lodout);
+            _stateManager.SwitchState(StateType.Lobby);
         }
     }
 }

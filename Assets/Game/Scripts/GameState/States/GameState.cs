@@ -32,10 +32,14 @@ namespace Game.Scripts.GameState.States
         
         private bool m_Finished;
 
+        private string _localizeLifeString;
+
         public override async UniTask Enter(State from)
         {
             m_Finished = false;
             _rootCanvas.gameObject.SetActive(true);
+
+            _localizeLifeString = _lifeCountText.text;
             
             if (MusicPlayer.instance.GetStem(0) != _gameTheme)
             {
@@ -69,7 +73,7 @@ namespace Game.Scripts.GameState.States
         private void UpdateUI()
         {
             _coinText.text = _trackManager.CharacterController.Coins.ToString();
-            _lifeCountText.text = $"ЖИЗНИ {_trackManager.CharacterController.CurrentLife}";
+            _lifeCountText.text = $"{_localizeLifeString}: {_trackManager.CharacterController.CurrentLife}";
         }
 
         public override StateType GetStateType()
@@ -90,7 +94,7 @@ namespace Game.Scripts.GameState.States
             
             Shader.SetGlobalFloat("_BlinkingValue", 0.0f);
             
-           _stateManager.SwitchState(StateType.Gameover);
+           _stateManager.SwitchState(StateType.GameOver);
            _trackManager.CharacterController.CurrentLife = _trackManager.CharacterController.maxLife;
            _trackManager.End();
         }
