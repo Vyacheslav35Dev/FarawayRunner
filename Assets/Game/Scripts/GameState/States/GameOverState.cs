@@ -45,14 +45,24 @@ namespace Game.Scripts.GameState.States
 
         private void GameOver()
         {
-            if (_trackManager.CharacterController.Coins > YandexGame.savesData.score)
+            if (YandexGame.auth)
             {
-                YandexGame.savesData.score = _trackManager.CharacterController.Coins;
-                YandexGame.SaveProgress();
+                if (_trackManager.CharacterController.Coins > YandexGame.savesData.score)
+                {
+                    YandexGame.savesData.score = _trackManager.CharacterController.Coins;
+                    YandexGame.SaveProgress();
                 
-                LeaderboardYg.NewScore(YandexGame.savesData.score);
+                    LeaderboardYg.NewScore(YandexGame.savesData.score);
+                }
             }
-            
+            else
+            {
+                if (_trackManager.CharacterController.Coins > PlayerPrefs.GetInt("Score", 0))
+                {
+                    PlayerPrefs.SetInt("Score", _trackManager.CharacterController.Coins);
+                }
+            }
+
             LeaderboardYg.UpdateLB();
             
             _stateManager.SwitchState(StateType.Lobby);
